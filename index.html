@@ -4,63 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance System</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        /* Responsive design */
-        @media (max-width: 600px) {
-            body { background-color: lightblue; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Attendance System</h1>
-    <!-- Login System -->
-    <div id="login-panel">
-        <h2>Login</h2>
-        <form id="login-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username"><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password"><br>
-            <button type="submit">Login</button>
-        </form>
+    <div id="app">
+        <header>
+            <h1>Attendance Management System</h1>
+            <nav>
+                <button id="superAdminBtn">Super Admin</button>
+                <button id="adminBtn">Admin</button>
+                <button id="studentBtn">Student</button>
+            </nav>
+        </header>
+        <main>
+            <section id="subject-management">
+                <h2>Manage Subjects</h2>
+                <h3>Add Subject</h3>
+                <input type="text" id="subjectName" placeholder="Enter subject name" />
+                <button id="addSubjectBtn">Add Subject</button>
+                <ul id="subjectList"></ul>
+            </section>
+            <section id="attendance-tracking">
+                <h2>Track Attendance</h2>
+                <h3>Select Subject</h3>
+                <select id="subjectSelect"></select>
+                <h3>Mark Attendance</h3>
+                <button id="markAttendanceBtn">Mark Attendance</button>
+                <ul id="attendanceList"></ul>
+            </section>
+        </main>
+        <footer>
+            <p>Attendance System © 2026</p>
+        </footer>
     </div>
-    <div id="admin-panel" style="display: none;">
-        <h2>Admin Panel</h2>
-        <button id="logout">Logout</button>
-        <div id="attendance-records"></div>
-    </div>
-    <div id="student-panel" style="display: none;">
-        <h2>Student Panel</h2>
-        <button id="logout">Logout</button>
-        <div id="attendance-status"></div>
-    </div>
-    <script>
-        function login(username, password) {
-            // Simple login logic (replace with real authentication)
-            localStorage.setItem('username', username);
-            if (username === 'admin') {
-                document.getElementById('admin-panel').style.display = 'block';
-                document.getElementById('login-panel').style.display = 'none';
-            } else {
-                document.getElementById('student-panel').style.display = 'block';
-                document.getElementById('login-panel').style.display = 'none';
-            }
-        }
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            login(username, password);
-        });
-        document.querySelectorAll('#logout').forEach(function(button) {
-            button.addEventListener('click', function() {
-                localStorage.removeItem('username');
-                document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('student-panel').style.display = 'none';
-                document.getElementById('login-panel').style.display = 'block';
-            });
-        });
-    </script>
 </body>
 </html>
+
+<script>
+// JavaScript code for attendance system
+const attendanceSystem = (() => {
+    let subjects = []; // Array to store subjects
+    let attendanceRecords = []; // Array to store attendance records
+
+    const init = () => {
+        loadSubjects();
+        loadAttendance();
+        document.getElementById('addSubjectBtn')?.addEventListener('click', addSubject);
+        document.getElementById('markAttendanceBtn')?.addEventListener('click', markAttendance);
+    };
+
+    const loadSubjects = () => {
+        subjects = JSON.parse(localStorage.getItem('subjects')) || [];
+        const subjectList = document.getElementById('subjectList');
+        subjectList.innerHTML = subjects.map(subject => `<li>${subject}</li>`).join('');
+        const subjectSelect = document.getElementById('subjectSelect');
+        subjectSelect.innerHTML = subjects.map((subject, index) => `<option value='${index}'>${subject}</option>`).join('');
+    };
+
+    const loadAttendance = () => {
+        attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
+        const attendanceList = document.getElementById('attendanceList');
+        attendanceList.innerHTML = attendanceRecords.map(record => `<li>${record.subject}: ${record.date}</li>`).join('');
+    };
+
+    const addSubject = () => {
+        const subjectName = document.getElementById('subjectName').value;
+        if (subjectName) {
+            subjects.push(subjectName);
+            localStorage.setItem('subjects', JSON.stringify(subjects));
+            loadSubjects();
+        }
+    };
+
+    const markAttendance = () => {
+        const selectedSubjectIndex = document.getElementById('subjectSelect').value;
+        const date = new Date().toISOString();
+        attendanceRecords.push({ subject: subjects[selectedSubjectIndex], date });
+        localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
+        loadAttendance();
+    };
+
+    return { init };
+})();
+
+// Initialize the attendance system upon loading
+window.onload = attendanceSystem.init;
+</script>
