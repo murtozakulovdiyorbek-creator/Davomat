@@ -1,1 +1,66 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Davomat Tizimi</title>\n    <script>\n        // Function to save data to localStorage\n        function saveData() {\n            const name = document.getElementById('name').value;\n            const date = document.getElementById('date').value;\n            const activity = document.getElementById('activity').value;\n\n            if (name && date && activity) {\n                const entry = { name, date, activity };\n                let data = JSON.parse(localStorage.getItem('davomat')) || [];\n                data.push(entry);\n                localStorage.setItem('davomat', JSON.stringify(data));\n                displayData();\n            } else {\n                alert('Please fill in all fields!');\n            }\n        }\n        \n        // Function to display data from localStorage\n        function displayData() {\n            const output = document.getElementById('output');\n            output.innerHTML = '';\n            const data = JSON.parse(localStorage.getItem('davomat')) || [];\n            data.forEach(entry => {\n                const div = document.createElement('div');\n                div.innerHTML = `<strong>Name:</strong> ${entry.name} <strong>Date:</strong> ${entry.date} <strong>Activity:</strong> ${entry.activity}`;\n                output.appendChild(div);\n            });\n        }\n\n        // Load data when the page loads\n        window.onload = displayData;\n    <\/script>\n</head>\n<body>\n    <h1>Davomat Tizimi</h1>\n    <div>\n        <input type="text" id="name" placeholder="Enter your name">\n        <input type="date" id="date">\n        <input type="text" id="activity" placeholder="Enter activity">\n        <button onclick="saveData()">Save</button>\n    </div>\n    <h2>Saved Data:</h2>\n    <div id="output"></div>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        /* Responsive design */
+        @media (max-width: 600px) {
+            body { background-color: lightblue; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance System</h1>
+    <!-- Login System -->
+    <div id="login-panel">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password"><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div id="admin-panel" style="display: none;">
+        <h2>Admin Panel</h2>
+        <button id="logout">Logout</button>
+        <div id="attendance-records"></div>
+    </div>
+    <div id="student-panel" style="display: none;">
+        <h2>Student Panel</h2>
+        <button id="logout">Logout</button>
+        <div id="attendance-status"></div>
+    </div>
+    <script>
+        function login(username, password) {
+            // Simple login logic (replace with real authentication)
+            localStorage.setItem('username', username);
+            if (username === 'admin') {
+                document.getElementById('admin-panel').style.display = 'block';
+                document.getElementById('login-panel').style.display = 'none';
+            } else {
+                document.getElementById('student-panel').style.display = 'block';
+                document.getElementById('login-panel').style.display = 'none';
+            }
+        }
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            login(username, password);
+        });
+        document.querySelectorAll('#logout').forEach(function(button) {
+            button.addEventListener('click', function() {
+                localStorage.removeItem('username');
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('student-panel').style.display = 'none';
+                document.getElementById('login-panel').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
