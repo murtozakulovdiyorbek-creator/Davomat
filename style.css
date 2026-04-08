@@ -1,39 +1,53 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Original Davomat Tizimi Design */
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --accent-color: #e74c3c;
+  --background-color: #ecf0f1;
+  --text-color: #2c3e50;
+  /* Add more variables as needed */
 }
 
-.header {
-  background-color: #000;
-  color: #fff;
-  padding: 10px;
-  width: 100%;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease;
 }
 
-.button {
-  background-color: #007BFF;
-  border: none;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  cursor: pointer;
+  border: none;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.button:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: var(--secondary-color);
 }
 
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 .fade-in {
-  animation: fadeIn 1s;
+  animation: fadeIn 1s ease-in;
 }
+
+/* Gradients */
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+
+/* Additional styles go here */
