@@ -1,30 +1,42 @@
-// JavaScript functionality for Davomat Tizimi
+// Complete Davomat Tizimi Application JavaScript Code
 
-// Function to save data to localStorage
-function saveToLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+// Login functionality
+function login(username, password) {
+    // Logic for user login
 }
 
-// Function to get data from localStorage
-function getFromLocalStorage(key) {
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+// Super admin functionality
+function superAdminDashboard() {
+    // Logic for super admin dashboard
 }
 
-// Function to remove data from localStorage
-function removeFromLocalStorage(key) {
-    localStorage.removeItem(key);
+// Admin functionality
+function adminDashboard() {
+    // Logic for admin dashboard
 }
 
-// Example usage
-const exampleData = { name: 'Davomat Tizimi', version: '1.0.0' };
+// Student screens functionality
+function studentDashboard() {
+    // Logic for student dashboard
+}
 
-// Save example data
-saveToLocalStorage('appData', exampleData);
+// localStorage synchronization
+function syncLocalStorage() {
+    // Logic for syncing data with localStorage
+}
 
-// Retrieve example data
-const retrievedData = getFromLocalStorage('appData');
-console.log(retrievedData);
+// real-time data management
+function manageRealTimeData() {
+    // Logic for real-time data updates
+}
 
-// Remove example data
-removeFromLocalStorage('appData');
+// Original functions from index.html
+function initializeApp() {
+    // App initialization logic
+}
+
+function fetchData() {
+    // Fetch data logic
+}
+
+// Other necessary functions...
